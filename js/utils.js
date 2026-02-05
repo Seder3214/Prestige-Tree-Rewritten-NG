@@ -976,6 +976,7 @@ function unl(layer) {
 }
 
 function layerunlocked(layer) {
+	if (player.as.selectionActive&&tmp[layer].row<7&&!tmp.as.canBeMastered.includes(layer)&&player.ma.mastered.includes(layer)) return false;
 	if (player.ma.selectionActive&&tmp[layer].row<6&&!tmp.ma.canBeMastered.includes(layer)) return false;
 	if (tmp[layer] && tmp[layer].type == "none") return (player[layer].unlocked)
 	return LAYERS.includes(layer) && (player[layer].unlocked || (tmp[layer].canReset && tmp[layer].layerShown))

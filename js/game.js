@@ -17,7 +17,7 @@ function getResetGain(layer, useType = null) {
 	if (tmp[layer].gainExp.eq(0)) return new Decimal(0)
 	if (type=="static") {
 		if ((!tmp[layer].canBuyMax) || tmp[layer].baseAmount.lt(tmp[layer].requires)) return new Decimal(1)
-		let gain = tmp[layer].baseAmount.div(tmp[layer].requires).div(tmp[layer].gainMult).max(1).log(tmp[layer].base).times(tmp[layer].gainExp).pow(Decimal.pow(tmp[layer].exponent, -1))
+		let gain = tmp[layer].baseAmount.div(tmp[layer].requires).div(tmp[layer].gainMult).max(1).log(tmp[layer].base).times(tmp[layer].gainExp).max(1).pow(Decimal.pow(tmp[layer].exponent, -1))
 		gain = softcapStaticGain(gain, tmp[layer].row)
 		return gain.floor().sub(player[layer].points).add(1).max(1);
 	} else if (type=="normal"){
@@ -113,10 +113,18 @@ function shouldNotify(layer){
 
 function canReset(layer)
 {
-	if(tmp[layer].type == "normal")
-		return tmp[layer].baseAmount.gte(tmp[layer].requires) && getResetGain(layer).gt(0)
-	else if(tmp[layer].type== "static")
-		return tmp[layer].baseAmount.gte(tmp[layer].nextAt)
+	if(tmp[layer].type == "normal") {
+		if (player.as.selectionActive==true) {
+			return (tmp[layer].baseAmount.gte(tmp[layer].requires) && (player.as.current==layer || player.as.mastered.includes(layer)))
+		}
+		else return (tmp[layer].baseAmount.gte(tmp[layer].requires) && getResetGain(layer).gt(0))
+	}
+	else if(tmp[layer].type== "static") {
+		if (player.as.selectionActive==true) {
+			return tmp[layer].baseAmount.gte(tmp[layer].nextAt) &&(player.as.current==layer || player.as.mastered.includes(layer))
+		}
+		else return tmp[layer].baseAmount.gte(tmp[layer].nextAt)
+	}
 	if(tmp[layer].type == "none")
 		return false
 	else
@@ -197,7 +205,6 @@ function doReset(layer, force=false) {
 
 		if (layers[layer].onPrestige)
 			layers[layer].onPrestige(gain)
-		
 		addPoints(layer, gain)
 		updateMilestones(layer)
 		updateAchievements(layer)
@@ -343,7 +350,7 @@ function gameLoop(diff) {
 			if (!player[layer].unlocked) player[layer].first += diff;
 			if (!unl(layer)) continue;
 			let speed = (x<6&&layer!="en"&&layer!="ne"&&layer!="id"&&layer!="r")?tmp.row1to6spd:new Decimal(1)
-			if (tmp[layer].passiveGeneration) generatePoints(layer, speed.times(diff*tmp[layer].passiveGeneration));
+			if (tmp[layer].passiveGeneration && tmp[layer].canReset) generatePoints(layer, speed.times(diff*tmp[layer].passiveGeneration));
 			if (layers[layer].update) layers[layer].update(speed.times(diff));
 		}
 	}
@@ -351,7 +358,7 @@ function gameLoop(diff) {
 	for (row in OTHER_LAYERS){
 		for (item in OTHER_LAYERS[row]) {
 			let layer = OTHER_LAYERS[row][item]
-			if (tmp[layer].passiveGeneration) generatePoints(layer, diff*tmp[layer].passiveGeneration);
+			if (tmp[layer].passiveGeneration && tmp[layer].canReset) generatePoints(layer, diff*tmp[layer].passiveGeneration);
 			if (layers[layer].update) layers[layer].update(diff);
 		}
 	}	

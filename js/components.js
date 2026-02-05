@@ -168,7 +168,7 @@ function loadVue() {
 				<span v-if="tmp[layer].upgrades[data].internalEffect&&tmp[layer].upgrades[data].showInternalStuff"><br>{{(tmp.nerdMode&&!tmp[layer].upgrades[data].noFormula)?'Formula: ':'Currently: '}}<span v-if="tmp.nerdMode&&!tmp[layer].upgrades[data].noFormula" v-html="tmp[layer].upgrades[data].formula?tmp[layer].upgrades[data].formula:'???'"></span><span v-if="(!tmp.nerdMode)||tmp[layer].upgrades[data].noFormula" v-html="(tmp[layer].upgrades[data].internalEffectDisplay) ? (tmp[layer].upgrades[data].internalEffectDisplay) : format(tmp[layer].upgrades[data].internalNodeEffect)"></span></span>
 				<br><span v-if="tmp.nerdMode&&tmp[layer].upgrades[data].costFormula">Cost Formula: {{tmp[layer].upgrades[data].costFormula}}</span><span v-if="!tmp.nerdMode||!tmp[layer].upgrades[data].costFormula"><br><span v-if="tmp[layer].upgrades[data].showInternalStuff">Cost: <span v-if="tmp[layer].upgrades[data].internalNodeMultiRes"><span v-for="num in tmp[layer].upgrades[data].internalNodeMultiRes.length">{{formatWhole(tmp[layer].upgrades[data].internalNodeMultiRes[num-1].cost)+' '+(tmp[layer].upgrades[data].internalNodeMultiRes[num-1].currencyDisplayName ? tmp[layer].upgrades[data].internalNodeMultiRes[num-1].currencyDisplayName : tmp[layer].resource)}}<br></span></span><span v-if="!tmp[layer].upgrades[data].multiRes">{{formatWhole(tmp[layer].upgrades[data].cost)+' '+(tmp[layer].upgrades[data].currencyDisplayName ? tmp[layer].upgrades[data].currencyDisplayName : tmp[layer].resource)}}</span></span></span>
 			</button>
-			<button v-if="(tmp[layer].upgrades[data].unlocked&&(!tmp[layer].upgrades[data].internalNode))||!player[layer].showInternal==true" v-on:click="buyUpg(layer, data)" v-bind:class="{ [layer]: true, upg: true, bought: cl?(cl=='bought'):hasUpgrade(layer, data), locked: cl?(cl=='locked'):(!hasUpgrade(layer, data)&&!canAffordUpgrade(layer, data)), can: cl?(cl=='can'):(!hasUpgrade(layer, data)&&canAffordUpgrade(layer, data)), anim: (player.anim&&!player.oldStyle), grad: (player.grad&&!player.oldStyle)}"
+			<button v-if="(tmp[layer].upgrades[data].unlocked&&(!tmp[layer].upgrades[data].internalNode))||(layer=='ai'&&!player[layer].showInternal)" v-on:click="buyUpg(layer, data)" v-bind:class="{ [layer]: true, upg: true, bought: cl?(cl=='bought'):hasUpgrade(layer, data), locked: cl?(cl=='locked'):(!hasUpgrade(layer, data)&&!canAffordUpgrade(layer, data)), can: cl?(cl=='can'):(!hasUpgrade(layer, data)&&canAffordUpgrade(layer, data)), anim: (player.anim&&!player.oldStyle), grad: (player.grad&&!player.oldStyle)}"
 				v-bind:style="[((!hasUpgrade(layer, data) && canAffordUpgrade(layer, data)) ? {'background-color': tmp[layer].color} : {}), tmp[layer].upgrades[data].style]">
 				<span v-if= "tmp[layer].upgrades[data].title"><h3 v-html="tmp[layer].upgrades[data].title"></h3><br></span>
 				<span v-html="tmp[layer].upgrades[data].description"></span>
@@ -251,7 +251,13 @@ function loadVue() {
 			v-bind:style="(player[layer].points.gte(tmp.ma.masteryGoal[layer]))?{'background-color': tmp.ma.color}:{}"
 			v-html="(player[layer].points.gte(tmp.ma.masteryGoal[layer]))?('Master this layer!'):('Reach '+format(tmp.ma.masteryGoal[layer])+' '+tmp[layer].resource+' to fully Master this layer.')"
 			v-on:click="layers.ma.completeMastery(layer)">
-		</button></div>
+		</button>
+		<button v-if="player.as.selectionActive&&tmp[layer].row<tmp.as.rowLimit&&tmp.as.canBeMastered.includes(layer)&&player.as.current==layer&&player.ma.mastered.includes(layer)" v-bind:class="{ as: true, reset: true, locked: player[layer].points.lt(tmp.as.masteryGoal[layer]), can: player[layer].points.gte(tmp.as.masteryGoal[layer]), anim: (player.anim&&!player.oldStyle), grad: (player.grad&&!player.oldStyle) }"
+			v-bind:style="(player[layer].points.gte(tmp.as.masteryGoal[layer]))?{'background-color': tmp.as.color}:{}"
+			v-html="(player[layer].points.gte(tmp.as.masteryGoal[layer]))?('Ascend this layer!'):('Reach '+format(tmp.as.masteryGoal[layer])+' '+tmp[layer].resource+' to fully Ascend this layer.')"
+			v-on:click="layers.as.completeMastery(layer)">
+		</button>
+		</div>
 		`
 	
 	})
@@ -423,11 +429,17 @@ function loadVue() {
 	
 	Vue.component('stars', {
 		props: ['layer'],
-		template: `<div v-if='!player.hideStars'><div v-if='player.ma.mastered.includes(layer)' class='star' style='position: absolute; left: -10px; top: -10px;'></div>
+		template: `<div v-if='!player.hideStars'><div v-if='player.ma.mastered.includes(layer)&&!player.as.mastered.includes(layer)' class='star' style='position: absolute; left: -10px; top: -10px;'></div>
 		<div v-if='false' class='star' style='position: absolute; left: 13px; top: -10px;'></div>
 		<div v-if='false' class='star' style='position: absolute; left: 36px; top: -10px;'></div>
 		<div v-if='false' class='star' style='position: absolute; left: 59px; top: -10px;'></div>
 		<div v-if='false' class='star' style='position: absolute; right: -10px; top: -10px;'></div>
+		<div v-if='!player.hideStars'><div v-if='player.as.mastered.includes(layer)' class='star2' style='position: absolute; left: -10px; top: -10px;'></div>
+		<div v-if='false' class='star2' style='position: absolute; left: 13px; top: -10px;'></div>
+		<div v-if='false' class='star2' style='position: absolute; left: 36px; top: -10px;'></div>
+		<div v-if='false' class='star2' style='position: absolute; left: 59px; top: -10px;'></div>
+		<div v-if='false' class='star2' style='position: absolute; right: -10px; top: -10px;'></div>
+		</div>
 		</div>`
 	})
 

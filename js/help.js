@@ -91,4 +91,10 @@ let help_data = {
 		text: "Once you unlock Civilizations, get Civilization Power and begin pushing. You'll also be able to get more AI Nodes here, which you should do in the order: AD -> BD/DB -> CD -> DD -> DA -> DC. As for Population, you should put it into Civs 5, 4, & 3 first, then deal with the earlier ones (but doing this other ways won't punish you all that greatly). Keep going for more Row 7 stuff, and make sure that your new Row 6 layers (Robots & Ideas) are fully automated at this point.<br><br>Go for more and more points, achievements, and progress altogether. If you feel stuck, remember to adjust your AI & civ builds, and check if anything isn't automated or bought that can be. Otherwise, this push towards the current endgame should be fairly straightforward.",
 		unlocked() { return player.c.unlocked },
 	},
+	cs: {
+		id: "cs",
+		title: "Cosmic Powers",
+		text: "Once you unlock Cosmic Power, You'll start generating first resource. At this point just wait and buy all the upgrades available and also buy the 34th civilization and get second Cosmic Power. Repeat the process for second Resource and unlock Ascension.",
+		unlocked() { return player.c.unlocked },
+	},
 }
