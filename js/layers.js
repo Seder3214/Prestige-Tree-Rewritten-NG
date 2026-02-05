@@ -1901,7 +1901,11 @@ addLayer("s", {
 				20: new Decimal("e1.5e9").root(rt),
 				21: new Decimal("e1.5e11").root(rt),
 		}},
-		tabFormat: ["main-display",
+		tabFormat: [
+				['display-text', function() {
+				return `You have <h2 style="color: ${tmp.s.color}; text-shadow: ${tmp.s.color} 0px 0px 10px;">${format(player.s.points)}</h2>`+((Array.isArray(tmp.as.mastered)?tmp.as.mastered.includes('s'):false)?`<h3 style="color: rgb(127, 249, 255); text-shadow: rgb(127, 249, 255) 0px 0px 10px;"> ascended</h3>`
+				:((Array.isArray(tmp.ma.mastered)?tmp.ma.mastered.includes('s'):false)?`<h3 style="color: ${tmp.ma.color}; text-shadow: ${tmp.ma.color} 0px 0px 10px;"> ascended</h3>`:""))+` space energy`
+			}],
 			"prestige-button",
 			"blank",
 			["display-text",
