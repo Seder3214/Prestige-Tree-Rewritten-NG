@@ -8,15 +8,15 @@ let modInfo = {
 	changelogLink: "https://github.com/Jacorb90/Prestige-Tree/blob/master/changelog.md",
     offlineLimit: 1,  // In hours
     initialStartPoints: new Decimal(10), // Used for hard resets and new players
-	endgame: new Decimal("e2.1e31"),
+	endgame: new Decimal("e5e52"),
 	// specialEndgameText: "v1.4 Endgame: e2.1e31 Points",
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.4",
+	num: "1.5 Patch I",
 	patch: 0,
-	name: "Superintelligence Explansion",
+	name: "Ascend to the max!",
 }
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.

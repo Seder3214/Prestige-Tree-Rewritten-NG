@@ -329,7 +329,6 @@ function gameLoop(diff) {
 	styleCooldown = Math.max(styleCooldown-diff, 0);
 	
 	if (isEndgame() || gameEnded) gameEnded = 1
-
 	if (isNaN(diff)) diff = 0
 	if (gameEnded && !player.keepGoing) {
 		diff = 0
