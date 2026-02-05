@@ -1048,14 +1048,14 @@ addLayer("t", {
 			if (hasUpgrade("t", 22)) mult = mult.times(upgradeEffect("t", 22));
 			if (player.h.unlocked) mult = mult.times(tmp.h.effect);
 			if (player.o.unlocked) mult = mult.times(tmp.o.solEnEff2);
-			if (player.as.mastered.includes('t')) mult = mult.pow(buyableEffect('t',12).root(10))
+			if (((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("t"):false)) mult = mult.pow(buyableEffect('t',12).root(10))
 			return mult;
 		},
 		enGainMult() {
 			let mult = new Decimal(1);
 			if (hasUpgrade("t", 22)) mult = mult.times(upgradeEffect("t", 22));
 			if (player.h.unlocked) mult = mult.times(tmp.h.effect);
-			if (player.as.mastered.includes('t')) mult = mult.pow(buyableEffect('t',12))
+			if (((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("t"):false)) mult = mult.pow(buyableEffect('t',12))
 			return mult;
 		},
 		effBaseMult() {
@@ -1126,7 +1126,7 @@ addLayer("t", {
 		update(diff) {
 			if (player.t.unlocked) player.t.energy = player.t.energy.plus(this.effect().gain.times(diff)).min(this.effect().limit).max(0);
 			if (player.t.autoExt && hasMilestone("q", 1) && !inChallenge("h", 31)) this.buyables[11].buyMax();
-			if (player.as.mastered.includes('t')&&player.t.autoExt) this.buyables[12].buyMax()
+			if (((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("t"):false)&&player.t.autoExt) this.buyables[12].buyMax()
 		},
         row: 2, // Row the layer is in on the tree (0 is the first row)
         hotkeys: [
@@ -1135,8 +1135,8 @@ addLayer("t", {
 		resetsNothing() { return hasMilestone("q", 5)&&player.ma.current!="t" },
 		tabFormat: [
 						['display-text', function() {
-				return `You have <h2 style="color: ${tmp.t.color}; text-shadow: ${tmp.t.color} 0px 0px 10px;">${format(player.e.points)}</h2>`+((Array.isArray(tmp.as.mastered)?tmp.as.mastered.includes('t'):false)?`<h3 style="color: rgb(127, 249, 255); text-shadow: rgb(127, 249, 255) 0px 0px 10px;"> ascended</h3>`
-				:((Array.isArray(tmp.ma.mastered)?tmp.ma.mastered.includes('t'):false)?`<h3 style="color: ${tmp.ma.color}; text-shadow: ${tmp.ma.color} 0px 0px 10px;"> ascended</h3>`:""))+` Time Capsules, `+tmp.t.effectDescription
+				return `You have <h2 style="color: ${tmp.t.color}; text-shadow: ${tmp.t.color} 0px 0px 10px;">${format(player.t.points)}</h2>`+((Array.isArray(tmp.as.mastered)?tmp.as.mastered.includes('t'):false)?`<h3 style="color: rgb(127, 249, 255); text-shadow: rgb(127, 249, 255) 0px 0px 10px;"> ascended</h3>`
+				:((Array.isArray(tmp.ma.mastered)?tmp.ma.mastered.includes('t'):false)?`<h3 style="color: ${tmp.ma.color}; text-shadow: ${tmp.ma.color} 0px 0px 10px;"> mastered</h3>`:""))+` Time Capsules, `+tmp.t.effectDescription
 			}],
 			"prestige-button",
 			"blank",
@@ -1422,7 +1422,7 @@ addLayer("t", {
 					let eff = player.t.points.mul(x.add(1).pow(5)).max(1).root(2).mul(2).pow(1.75)
 					return softcap('time_d',eff)
 				},
-                unlocked() { return player.as.mastered.includes('t') }, 
+                unlocked() { return ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("t"):false) }, 
                 canAfford() {
                     return player.b.points.gte(tmp[this.layer].buyables[this.id].cost) && (inChallenge("h", 31) ? player.h.chall31bought<10 : true)},
                 buy() { 
@@ -1441,7 +1441,7 @@ addLayer("t", {
 					let target = tempBuy.plus(1).floor();
 					player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].max(target);
 				},
-				autoed() { return player.t.autoExt && player.as.mastered.includes('t') },
+				autoed() { return player.t.autoExt && ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("t"):false) },
                 style: {'height':'222px'},
 			},
 		},
@@ -1507,14 +1507,18 @@ addLayer("e", {
         gainExp() { // Calculate the exponent on main currency from bonuses
             return new Decimal(1)
         },
-				tabFormat: 
+			tabFormat: 
 			[
 			['display-text', function() {
 				return `You have <h2 style="color: ${tmp.e.color}; text-shadow: ${tmp.e.color} 0px 0px 10px;">${format(player.e.points)}</h2>`+((Array.isArray(tmp.as.mastered)?tmp.as.mastered.includes('e'):false)?`<h3 style="color: rgb(127, 249, 255); text-shadow: rgb(127, 249, 255) 0px 0px 10px;"> ascended</h3>`
-				:((Array.isArray(tmp.ma.mastered)?tmp.ma.mastered.includes('e'):false)?`<h3 style="color: ${tmp.ma.color}; text-shadow: ${tmp.ma.color} 0px 0px 10px;"> ascended</h3>`:""))+` enhancers`
+				:((Array.isArray(tmp.ma.mastered)?tmp.ma.mastered.includes('e'):false)?`<h3 style="color: ${tmp.ma.color}; text-shadow: ${tmp.ma.color} 0px 0px 10px;"> mastered</h3>`:""))+` enhancers`
 			}],
 			"resource-display",
 			"prestige-button",
+			"blank",
+			"milestones",
+			"blank",
+			"buyables",
 			"blank",
 			"upgrades"],
 			update(diff) {
@@ -1904,7 +1908,7 @@ addLayer("s", {
 		tabFormat: [
 				['display-text', function() {
 				return `You have <h2 style="color: ${tmp.s.color}; text-shadow: ${tmp.s.color} 0px 0px 10px;">${format(player.s.points)}</h2>`+((Array.isArray(tmp.as.mastered)?tmp.as.mastered.includes('s'):false)?`<h3 style="color: rgb(127, 249, 255); text-shadow: rgb(127, 249, 255) 0px 0px 10px;"> ascended</h3>`
-				:((Array.isArray(tmp.ma.mastered)?tmp.ma.mastered.includes('s'):false)?`<h3 style="color: ${tmp.ma.color}; text-shadow: ${tmp.ma.color} 0px 0px 10px;"> ascended</h3>`:""))+` space energy`
+				:((Array.isArray(tmp.ma.mastered)?tmp.ma.mastered.includes('s'):false)?`<h3 style="color: ${tmp.ma.color}; text-shadow: ${tmp.ma.color} 0px 0px 10px;"> mastered</h3>`:""))+` space energy`
 			}],
 			"prestige-button",
 			"blank",
@@ -10568,7 +10572,9 @@ addLayer("ai", {
                     let data = tmp[this.layer].buyables[this.id];
 					let cost = data.cost;
 					let amt = player[this.layer].buyables[this.id];
-                    let display = formatWhole(player.ai.points)+" / "+formatWhole(cost.ai)+" Superintelligence"+(tmp.nerdMode?(" (2^x)"):"")+"<br>"+formatWhole(player.ge.points)+" / "+formatWhole(cost.ge)+" Gears"+(tmp.nerdMode?(" (100^(x^1.8)*1e78)"):"")+"<br>"+formatWhole(player.mc.mechEn.times(tmp.mc.mechEnMult))+" / "+formatWhole(cost.mc)+" Mech-Energy"+(tmp.nerdMode?(" (1e525^(x^2.5)*1e750)"):"")+"<br><br>Level: "+formatWhole(amt)+"<br><br>Reward: Generates "+formatWhole(data.effect)+" Artificial Consciousness/sec"+(tmp.nerdMode?" (4^x-1)":".");
+                    let display = formatWhole(player.ai.points)+" / "+formatWhole(cost.ai)+" Superintelligence"+(!hasMilestone('cs',8)?((tmp.nerdMode?(" (2^x)"):"")+"<br>"+formatWhole(player.ge.points)+
+					" / "+formatWhole(cost.ge)+" Gears"+(tmp.nerdMode?(" (100^(x^1.8)*1e78)"):""))+"<br>"+formatWhole(player.mc.mechEn.times(tmp.mc.mechEnMult))+" / "+formatWhole(cost.mc)+" Mech-Energy":"")
+					+(tmp.nerdMode?(" (1e525^(x^2.5)*1e750)"):"")+"<br><br>Level: "+formatWhole(amt)+"<br><br>Reward: Generates "+formatWhole(data.effect)+" Artificial Consciousness/sec"+(tmp.nerdMode?" (4^x-1)":".");
 					return display;
                 },
                 unlocked() { return unl(this.layer) }, 
@@ -10580,8 +10586,7 @@ addLayer("ai", {
                 buy() { 
 					let cost = tmp[this.layer].buyables[this.id].cost;
 					player.ai.points = player.ai.points.sub(cost.ai);
-					player.ge.points = player.ge.points.sub(cost.ge);
-					player.mc.mechEn = player.mc.mechEn.sub(cost.mc);
+					if (!hasMilestone('cs',8)) player.ge.points = player.ge.points.sub(cost.ge);
 					player.ai.buyables[this.id] = player.ai.buyables[this.id].plus(1);
                 },
 				buyMax() {
@@ -12166,7 +12171,7 @@ addLayer("a", {
 			184: {
 				name: "Criss-cross apple sauce",
 				unlocked() { return hasAchievement("a", 111) },
-				done() { return player.ai.internalNodes.includes(13)&&player.ai.internalNodes.includes(31)&&player.ai.internalNodes.includes(35)&&player.ai.internalNodes.includes(43)},
+				done() { return (player.ai.internalNodes.includes(13)&&player.ai.internalNodes.includes(31)&&player.ai.internalNodes.includes(35)&&player.ai.internalNodes.includes(53))},
 				tooltip: "Buy Internal Nodes EC/CE and CA/AC",
 				image: "images/achs/165.png",
 			},	

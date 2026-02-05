@@ -14,7 +14,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.5 Patch II",
+	num: "1.5 Patch III",
 	patch: 0,
 	name: "Ascend to the max!",
 }
