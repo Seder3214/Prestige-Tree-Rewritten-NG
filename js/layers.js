@@ -1133,7 +1133,11 @@ addLayer("t", {
             {key: "t", description: "Press T to Time Reset", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
         ],
 		resetsNothing() { return hasMilestone("q", 5)&&player.ma.current!="t" },
-		tabFormat: ["main-display",
+		tabFormat: [
+						['display-text', function() {
+				return `You have <h2 style="color: ${tmp.t.color}; text-shadow: ${tmp.t.color} 0px 0px 10px;">${format(player.e.points)}</h2>`+((Array.isArray(tmp.as.mastered)?tmp.as.mastered.includes('t'):false)?`<h3 style="color: rgb(127, 249, 255); text-shadow: rgb(127, 249, 255) 0px 0px 10px;"> ascended</h3>`
+				:((Array.isArray(tmp.ma.mastered)?tmp.ma.mastered.includes('t'):false)?`<h3 style="color: ${tmp.ma.color}; text-shadow: ${tmp.ma.color} 0px 0px 10px;"> ascended</h3>`:""))+` Time Capsules, `+tmp.t.effectDescription
+			}],
 			"prestige-button",
 			"blank",
 			["display-text",
@@ -1503,6 +1507,19 @@ addLayer("e", {
         gainExp() { // Calculate the exponent on main currency from bonuses
             return new Decimal(1)
         },
+				tabFormat: 
+			[
+			['display-text', function() {
+				return `You have <h2 style="color: ${tmp.e.color}; text-shadow: ${tmp.e.color} 0px 0px 10px;">${format(player.e.points)}</h2>`+((Array.isArray(tmp.as.mastered)?tmp.as.mastered.includes('e'):false)?`<h3 style="color: rgb(127, 249, 255); text-shadow: rgb(127, 249, 255) 0px 0px 10px;"> ascended</h3>`
+				:((Array.isArray(tmp.ma.mastered)?tmp.ma.mastered.includes('e'):false)?`<h3 style="color: ${tmp.ma.color}; text-shadow: ${tmp.ma.color} 0px 0px 10px;"> ascended</h3>`:""))+` enhancers`
+			}],
+			"resource-display",
+			"prestige-button",
+			"blank",
+			"upgrades"],
+			update(diff) {
+				if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("g"):false) player.p.ascPoints = player.p.ascPoints.add(tmp.p.ascendedPPGain.div(tmp.row1to6spd).times(diff))
+			},
 		passiveGeneration() { return (hasMilestone("q", 1)&&player.ma.current!="e")?1:0 },
 		update(diff) {
 			if (player.e.auto && hasMilestone("q", 1) && !inChallenge("h", 31)) this.buyables[11].buyMax();
