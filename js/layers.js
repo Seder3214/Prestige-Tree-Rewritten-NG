@@ -7202,8 +7202,7 @@ addLayer("ma", {
 		resetsNothing() { return false },
         doReset(resettingLayer){ 
 			let keep = [];
-			console.log(resettingLayer, layers[resettingLayer].row)
-			if (hasMilestone("cs", 3) && layers[resettingLayer].row==7) { 
+			if (hasMilestone("cs", 0) && layers[resettingLayer].row==7) { 
 				keep.push("milestones")
 				keep.push("points")
 				keep.push("buyables")
