@@ -46,10 +46,10 @@ addLayer("p", {
 			return exp;
         },
 		ascendedPPGain() {
-			let gain = player.p.points.max(1).slog().root(1.5).pow(1.23)
+			let gain = player.p.points.max(1).slog().max(1).root(1.5).max(1).pow(1.23).max(1)
 			if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("sg"):false) gain = gain.times(tmp.sg.ultraEff)
 			if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("sb"):false) gain = gain.times(tmp.sb.ultraEff)
-			if (player.as.mastered.includes(this.layer)) return gain
+			if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("p"):false) return gain
 			else return new Decimal(0)
 		},
 		ascBoost() {
@@ -100,7 +100,7 @@ addLayer("p", {
 			"blank",
 			"upgrades"],
 			update(diff) {
-				if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("g"):false) player.p.ascPoints = player.p.ascPoints.add(tmp.p.ascendedPPGain.div(tmp.row1to6spd).times(diff))
+				if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("p"):false) player.p.ascPoints = player.p.ascPoints.add(tmp.p.ascendedPPGain.div(tmp.row1to6spd).times(diff))
 			},
 		upgrades: {
 			rows: 4,
