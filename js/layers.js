@@ -91,7 +91,7 @@ addLayer("p", {
 		tabFormat: 
 			["main-display",
 			['display-text', function() {
-				if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("g"):false) return `You have <h2 style="color: rgb(49, 174, 176); text-shadow: rgb(49, 174, 176) 0px 0px 10px;">${format(player.p.ascPoints)}</h2><h3 style="color: rgb(127, 249, 255); text-shadow: rgb(127, 249, 255) 0px 0px 10px;"> ascended</h3> prestige points  (+${format(tmp.p.ascendedPPGain)}/s, based on prestige points and unaffected by row 1 to 6 speed), <br>that are raising\n
+				if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("p"):false) return `You have <h2 style="color: rgb(49, 174, 176); text-shadow: rgb(49, 174, 176) 0px 0px 10px;">${format(player.p.ascPoints)}</h2><h3 style="color: rgb(127, 249, 255); text-shadow: rgb(127, 249, 255) 0px 0px 10px;"> ascended</h3> prestige points  (+${format(tmp.p.ascendedPPGain)}/s, based on prestige points and unaffected by row 1 to 6 speed), <br>that are raising\n
 				 <b>Prestige Boost</b> effect by <h3 style="color: rgb(127, 249, 255); text-shadow: rgb(127, 249, 255) 0px 0px 10px;">${format(tmp.p.ascBoost)}</h3>`
 			else return ""
 			}],
