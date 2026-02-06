@@ -7422,7 +7422,10 @@ addLayer("ma", {
 			let rows = player.ma.mastered.map(x => tmp[x].row)
 			let realRows = rows.filter(y => Object.keys(ROW_LAYERS[y]).every(z => player.ma.mastered.includes(z) || tmp.ma.masteryGoal[z]===undefined));
 			let furthestRow = Math.max(...realRows)+((player.ma.current !== null)?0:1);
+			let rows4 = rows.filter(row => row === 4).length
 			let m = Object.keys(layers).filter(x => (tmp[x].row<=furthestRow&&tmp.ma.masteryGoal[x]!==undefined&&(tmp.ma.specialReqs[x]?tmp.ma.specialReqs[x].every(y => player.ma.mastered.includes(y)):true))||player.ma.mastered.includes(x));
+			if (rows4==3) m=(Object.keys(layers).filter(x => (tmp[x].row<=(furthestRow==4?furthestRow+1:furthestRow)&&tmp.ma.masteryGoal[x]!==undefined&&(tmp.ma.specialReqs[x]?tmp.ma.specialReqs[x].every(y => player.ma.mastered.includes(y)):true))||player.ma.mastered.includes(x)))
+				console.log(rows4,m, furthestRow)
 			if (player.ma.current !== null) m.push(player.ma.current);
 			
 			return m;
@@ -7472,11 +7475,10 @@ addLayer("ma", {
 			o: ["q","h"],
 			ss: ["q","h"],
 			ps: ["m","ba"],
+			hn: ["m", "ps", "ba"],
 			n: ["hn"],
 			hs: ["hn"],
 			i: ["n","hs"],
-			ne: ['ss'],
-			en: ['o'],
 			r: ['en'],
 			id: ['ne'],	
 		},
@@ -11567,6 +11569,7 @@ addLayer("as", {
 			o: ["q","h"],
 			ss: ["q","h"],
 			ps: ["m","ba"],
+			hn: ["m", "ps","ba"],
 			n: ["hn"],
 			hs: ["hn"],
 			i: ["n","hs"],
