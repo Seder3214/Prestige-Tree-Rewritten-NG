@@ -9,11 +9,11 @@ function getNextResourceDisplay() {
 addLayer("p", {
         name: "prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
         symbol() { 
-			if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("g"):false) return "AP"
+			if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("p"):false) return "AP"
 			return "P"}, // This appears on the layer's node. Default is the id with the first letter capitalized
         position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
         color() {
-			if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("g"):false) return "#45fcff"
+			if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("p"):false) return "#45fcff"
 			return "#31aeb0"},
         requires: new Decimal(10), // Can be a function that takes requirement increases into account
         resource: "prestige points", // Name of prestige currency
