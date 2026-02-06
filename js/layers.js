@@ -11343,7 +11343,7 @@ else return {
             if (layers[resettingLayer].row > this.row) layerDataReset(this.layer, keep)
         },
 		autoPrestige() { return false },
-        layerShown(){return true},
+        layerShown(){return player.c.unlocked},
 		row:7,
 		update(diff) {
 			player.cs.stardust = player.cs.stardust.add(tmp.cs.stardustGain.times(diff))
