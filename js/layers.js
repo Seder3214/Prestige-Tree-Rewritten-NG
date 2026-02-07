@@ -10992,6 +10992,7 @@ addLayer("cs", {
 					let base = new Decimal(1.1)
 					let base2 = new Decimal(2.5)
 					let eff = player.cs.stardust.max(1).root(3).max(1).pow(base).mul(base2)
+					if (hasUpgrade('cs',12) && (!hasMilestone('cs',1))) eff = eff.mul(3)
 					return eff
 				},
 				effectDisplay() {
@@ -11009,7 +11010,7 @@ addLayer("cs", {
 			},
 			12: {
 				title: "Cosmic Improvement",
-				description: "Resource I's second effect applies to all Gear Upgrades and is boosted based on total base of Gear Upgrades.",
+				description: "Resource I's 2nd eff. applies to all Gear Upg's and is boosted based on total base of Gear Upgrades. Triple prev. upgrade eff. (removed after CP Milestone 2).",
 				cost() { return new Decimal(150) },
 				currencyDisplayName: "planetary remains",
 				currencyInternalName: "stardust",
@@ -11032,10 +11033,10 @@ addLayer("cs", {
 					'animation': 's cubic-bezier(0.4, 0, 1, 1) 2s infinite',
 					'background-image': 'radial-gradient(circle, rgb(213, 7, 213) 30%, rgb(79, 11, 80) 70%, rgb(0, 0, 0) 100%)',
 					'color':'white',
-					'font-size':'9px',
+					'font-size':'8px',
 					}
 					else return {
-						'font-size':'9px',
+						'font-size':'8px',
 					}
 				},
 			},
@@ -11349,7 +11350,7 @@ else return {
             if (layers[resettingLayer].row > this.row) layerDataReset(this.layer, keep)
         },
 		autoPrestige() { return false },
-        layerShown(){return player.c.unlocked && hasInternal('ai',55)},
+        layerShown(){return (player.c.unlocked && hasInternal('ai',55))||player.cs.unlocked},
 		row:7,
 		update(diff) {
 			player.cs.stardust = player.cs.stardust.add(tmp.cs.stardustGain.times(diff))
