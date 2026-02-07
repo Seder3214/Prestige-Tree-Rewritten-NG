@@ -22,7 +22,7 @@ addLayer("p", {
         type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
         exponent() { 
 			if (player.as.current=='p') return 1/50
-			return ((Array.isArray(tmp.ma.mastered))?tmp.ma.mastered.includes(this.layer):false)?0.75:0.5 }, // Prestige currency exponent
+			else return ((Array.isArray(tmp.ma.mastered))?tmp.ma.mastered.includes(this.layer):false)?0.75:0.5 }, // Prestige currency exponent
         gainMult() { // Calculate the multiplier for main currency from bonuses
             mult = new Decimal(1)
 			if (hasAchievement("a", 13)) mult = mult.times(1.1);
@@ -132,7 +132,7 @@ addLayer("p", {
 					if (hasUpgrade("hn", 14)) eff = eff.pow(1.05);
 					if (hasUpgrade("b", 34) && player.i.buyables[12].gte(1)) eff = eff.pow(upgradeEffect("b", 34));
 					if ((Array.isArray(tmp.ma.mastered))?tmp.ma.mastered.includes(this.layer):false) eff = eff.pow(1.1);
-					if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("g"):false) eff = eff.pow(tmp.p.ascBoost)
+					if ((Array.isArray(tmp.as.mastered))?tmp.as.mastered.includes("p"):false) eff = eff.pow(tmp.p.ascBoost)
 					return eff;
 				},
 				unlocked() { return hasUpgrade("p", 11) },
@@ -2602,7 +2602,8 @@ addLayer("s", {
 				effect(x=player[this.layer].buyables[this.id]) { // Effects of owning x of the items, x is a decimal
 					let ret = x.plus(tmp.s.buyables[this.id].freeLevels).times(tmp.s.buildingPower).div(1e3).plus(1)
 					if (player.hs.unlocked) ret = ret.pow(buyableEffect("hs", 29));
-					return softcap("spaceBuilding9_2", softcap("spaceBuilding9", ret));
+					eff = softcap("spaceBuilding9", ret)
+					return softcap("spaceBuilding9_2", ret);
                 },
 				display() { // Everything else displayed in the buyable button after the title
                     let data = tmp[this.layer].buyables[this.id]
@@ -2649,7 +2650,7 @@ addLayer("s", {
 					return levels;
 				},
 				effect(x=player[this.layer].buyables[this.id]) { // Effects of owning x of the items, x is a decimal
-					let ret = x.plus(tmp.s.buyables[this.id].freeLevels).times(tmp.s.buildingPower).div(250).pow(0.5)	
+					let ret = x.plus(tmp.s.buyables[this.id].freeLevels).times(tmp.s.buildingPower).div(250)	
 					if (player.hs.unlocked) ret = ret.times(buyableEffect("hs", 30));
 					return softcap("spaceBuilding10",ret);
                 },
