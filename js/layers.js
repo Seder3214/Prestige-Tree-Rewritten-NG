@@ -7187,7 +7187,7 @@ addLayer("ma", {
             mult = new Decimal(1)
 			if (hasAchievement("a", 131)) mult = mult.div(1.1);
 			if (hasAchievement("a", 95)) mult = mult.div(1.15);
-			if (hasAchievement("a", 134)) mult = mult.times(Decimal.pow(.999925, player.ps.points));
+			if (hasAchievement("a", 134)) mult = mult.times(player.ma.points.gte(100)?Decimal.pow(.999865, player.ps.points.div(player.ma.points.div(100).add(1))):Decimal.pow(.999925, player.ps.points));
 			if (hasAchievement("a", 163)) mult = mult.div(Decimal.pow(1.1, player.a.achievements.filter(x => x>160).length));
             return mult
         },
@@ -7258,7 +7258,8 @@ addLayer("ma", {
 				effect(x=player[this.layer].buyables[this.id]) {
 					let eff1 = new Decimal(player.ma.points.max(1).div(25).mul(1.15)).pow(x)
 					let eff2 = new Decimal(player.ma.points.max(1).div(25)*(x.add(1).mul(1.146))).pow(x)
-					return {eff1:eff1,eff2:softcap('mb2',eff2)}
+					eff2=softcap('mb2',eff2)
+					return {eff1:eff1,eff2:softcap("mb_2_2", eff2)}
 				},
                 unlocked() { return hasUpgrade('ai',25) }, 
                 canAfford() {

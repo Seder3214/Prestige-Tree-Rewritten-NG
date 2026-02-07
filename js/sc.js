@@ -430,6 +430,14 @@ const SOFTCAPS = {
 		display() { return buyableEffect('ma',12).gte(this.start) },
 		info() { return "Starts at "+format(this.start)+"x, exponent brought to the 5th root" },
 	},
+	mb_2_2: {
+		title: "Mastery Building II",
+		type: "expRoot",
+		start: new Decimal(1e22),
+		mag: new Decimal(3),
+		display() { return buyableEffect('ma',12).gte(this.start) },
+		info() { return "Starts at "+format(this.start)+"x, exponent brought to the 3th root" },
+	},
 	g_p: {
 		title: "Generator Power Effect",
 		type: "expRoot",
