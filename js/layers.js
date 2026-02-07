@@ -9253,7 +9253,9 @@ addLayer("ai", {
 		passiveGeneration() { return (hasMilestone("cs", 0))?1:0 },
         doReset(resettingLayer){ 
 			let keep = [];
-			if (hasMilestone("cs", 3) && layers[resettingLayer].row==7) keep.push("upgrades")
+			if (layers[resettingLayer].row==7){
+			player.ai.internalNodes = []
+			if (hasMilestone("cs", 3)) keep.push("upgrades")}
 			if (layers[resettingLayer].row == this.row) {
 				player.ai.time = new Decimal(0);
 				player.ai.consc = new Decimal(0);
@@ -10933,7 +10935,7 @@ addLayer("cs", {
 			0: {
 				requirementDescription: "1 Total Cosmic Powers (0)",
 				done() { return player.cs.total.gte(1) },
-				effectDescription: "Keep Mastery on row 8 reset.<br>Get 100% of Superintelligence gain every second.<br>Unlock First Cosmic Resource.",
+				effectDescription: "Keep every 1-5 rows on reset.<br>Keep Mastery on row 8 reset.<br>Get 100% of Superintelligence gain every second.<br>Unlock First Cosmic Resource.",
 			},
 			1: {
 				requirementDescription: "Reach 1000 Planetary remains (1)",
@@ -10948,7 +10950,7 @@ addLayer("cs", {
 			3: {
 				requirementDescription: "2 Total Cosmic Powers (3)",
 				done() { return player.cs.total.gte(2) },
-				effectDescription: "Keep every 1-5 rows on reset. Keep Normal AI Nodes on row 8 reset.",
+				effectDescription: "Keep Normal AI Nodes on row 8 reset.",
 			},
 			4: {
 				requirementDescription: "Reach 3000 Unobtainium (4)",
@@ -11259,6 +11261,7 @@ addLayer("cs", {
 			rows:2,
 			cols:2,
 			11: {
+				unlocked() {return player.cs.total.gte(1)},
 				title() {return (player.tab=="cs" && player.subtabs[player.tab].mainTabs == "Researches")?`Resource I`:``},
 				display() {
 					if (player.tab=="cs" &&player.subtabs[player.tab].mainTabs == "Researches") return `<span>\n
@@ -11299,6 +11302,7 @@ else return {
 				}
 			},
 			12: {
+				unlocked() {return player.cs.total.gte(2)},
 				title() {return (player.tab=="cs" && player.subtabs[player.tab].mainTabs == "Researches")?`Resource II`:``},
 				display() {
 					if (player.tab=="cs" &&player.subtabs[player.tab].mainTabs == "Researches") return `<span>\n
@@ -11345,7 +11349,7 @@ else return {
             if (layers[resettingLayer].row > this.row) layerDataReset(this.layer, keep)
         },
 		autoPrestige() { return false },
-        layerShown(){return player.c.unlocked},
+        layerShown(){return player.c.unlocked && hasInternal('ai',55)},
 		row:7,
 		update(diff) {
 			player.cs.stardust = player.cs.stardust.add(tmp.cs.stardustGain.times(diff))
