@@ -9253,7 +9253,9 @@ addLayer("ai", {
 		passiveGeneration() { return (hasMilestone("cs", 0))?1:0 },
         doReset(resettingLayer){ 
 			let keep = [];
-			if (hasMilestone("cs", 3) && layers[resettingLayer].row==7) keep.push("upgrades")
+			if (layers[resettingLayer].row==7){
+			player.ai.internalNodes = []
+			if (hasMilestone("cs", 3)) keep.push("upgrades")}
 			if (layers[resettingLayer].row == this.row) {
 				player.ai.time = new Decimal(0);
 				player.ai.consc = new Decimal(0);
@@ -10933,7 +10935,7 @@ addLayer("cs", {
 			0: {
 				requirementDescription: "1 Total Cosmic Powers (0)",
 				done() { return player.cs.total.gte(1) },
-				effectDescription: "Keep Mastery on row 8 reset.<br>Get 100% of Superintelligence gain every second.<br>Unlock First Cosmic Resource.",
+				effectDescription: "Keep every 1-5 rows on reset.<br>Keep Mastery on row 8 reset.<br>Get 100% of Superintelligence gain every second.<br>Unlock First Cosmic Resource.",
 			},
 			1: {
 				requirementDescription: "Reach 1000 Planetary remains (1)",
@@ -10948,7 +10950,7 @@ addLayer("cs", {
 			3: {
 				requirementDescription: "2 Total Cosmic Powers (3)",
 				done() { return player.cs.total.gte(2) },
-				effectDescription: "Keep every 1-5 rows on reset. Keep Normal AI Nodes on row 8 reset.",
+				effectDescription: "Keep Normal AI Nodes on row 8 reset.",
 			},
 			4: {
 				requirementDescription: "Reach 3000 Unobtainium (4)",
@@ -10990,6 +10992,7 @@ addLayer("cs", {
 					let base = new Decimal(1.1)
 					let base2 = new Decimal(2.5)
 					let eff = player.cs.stardust.max(1).root(3).max(1).pow(base).mul(base2)
+					if (hasUpgrade('cs',12) && (!hasMilestone('cs',1))) eff = eff.mul(3)
 					return eff
 				},
 				effectDisplay() {
@@ -11007,7 +11010,7 @@ addLayer("cs", {
 			},
 			12: {
 				title: "Cosmic Improvement",
-				description: "Resource I's second effect applies to all Gear Upgrades and is boosted based on total base of Gear Upgrades.",
+				description: "Resource I's 2nd eff. applies to all Gear Upg's and is boosted based on total base of Gear Upgrades. Triple prev. upgrade eff. (removed after CP Milestone 2).",
 				cost() { return new Decimal(150) },
 				currencyDisplayName: "planetary remains",
 				currencyInternalName: "stardust",
@@ -11030,10 +11033,10 @@ addLayer("cs", {
 					'animation': 's cubic-bezier(0.4, 0, 1, 1) 2s infinite',
 					'background-image': 'radial-gradient(circle, rgb(213, 7, 213) 30%, rgb(79, 11, 80) 70%, rgb(0, 0, 0) 100%)',
 					'color':'white',
-					'font-size':'9px',
+					'font-size':'8px',
 					}
 					else return {
-						'font-size':'9px',
+						'font-size':'8px',
 					}
 				},
 			},
@@ -11259,6 +11262,7 @@ addLayer("cs", {
 			rows:2,
 			cols:2,
 			11: {
+				unlocked() {return player.cs.total.gte(1)},
 				title() {return (player.tab=="cs" && player.subtabs[player.tab].mainTabs == "Researches")?`Resource I`:``},
 				display() {
 					if (player.tab=="cs" &&player.subtabs[player.tab].mainTabs == "Researches") return `<span>\n
@@ -11299,6 +11303,7 @@ else return {
 				}
 			},
 			12: {
+				unlocked() {return player.cs.total.gte(2)},
 				title() {return (player.tab=="cs" && player.subtabs[player.tab].mainTabs == "Researches")?`Resource II`:``},
 				display() {
 					if (player.tab=="cs" &&player.subtabs[player.tab].mainTabs == "Researches") return `<span>\n
@@ -11345,7 +11350,7 @@ else return {
             if (layers[resettingLayer].row > this.row) layerDataReset(this.layer, keep)
         },
 		autoPrestige() { return false },
-        layerShown(){return player.c.unlocked},
+        layerShown(){return (player.c.unlocked && hasInternal('ai',55))||player.cs.unlocked},
 		row:7,
 		update(diff) {
 			player.cs.stardust = player.cs.stardust.add(tmp.cs.stardustGain.times(diff))
@@ -11584,11 +11589,11 @@ addLayer("as", {
 			p: new Decimal("e6.823e12"),
 			b: new Decimal(50000),
 			g: new Decimal(27300),
-			t: new Decimal(11850),
-			e: new Decimal("e1.65e13"),
-			s: new Decimal(8570),
+			t: new Decimal(12610),
+			e: new Decimal("e5e13"),
+			s: new Decimal(12545),
 			sb: new Decimal(49),
-			sg: new Decimal(33),
+			sg: new Decimal(27),
 			q: new Decimal("e480000"),
 			h: new Decimal("e416000"),
 			o: new Decimal(1e34),
