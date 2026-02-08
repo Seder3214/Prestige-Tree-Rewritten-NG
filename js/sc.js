@@ -566,6 +566,30 @@ const SOFTCAPS = {
 		display() { return internalNodeEffect('ai',34).gte(this.start) },
 		info() { return "Starts at "+format(this.start)+"x, brought to the square root" },	
 	},
+	civ_1: {
+		title: "Civilization I",
+		type: "expRoot",
+		start: new Decimal(1e40),
+		mag: new Decimal(17),
+		display() { return tmp.c.power[1].times(50).gte(this.start) },
+		info() { return "Starts at "+format(this.start)+"x, exponent brought to the 17th root" },	
+	},
+	cs_11: {
+		title: "<b>Planetary Power</b>",
+		type: "expRoot",
+		start: new Decimal(1e25),
+		mag: new Decimal(3),
+		display() { return upgradeEffect('cs',11).gte(this.start) },
+		info() { return "Starts at "+format(this.start)+"x, exponent cube rooted" },	
+	},
+	consc2: {
+		title: "Artificial Consciuosness Second Effect",
+		type: "expRoot",
+		start: new Decimal(2500),
+		mag: new Decimal(1.5),
+		display() { return tmp.ai.conscEff2.gte(this.start) },
+		info() { return "Starts at "+format(this.start)+"x, exponent brought to the 1.5th root" },	
+	},
 }
 
 const STATIC_SCALE_DATA = [

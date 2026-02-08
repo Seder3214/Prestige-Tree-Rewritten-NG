@@ -9274,7 +9274,7 @@ addLayer("ai", {
 		},
 		divConsc() { return player.ai.time.plus(1).log10().plus(1).sqrt() },
 		conscEff1() { return player.ai.consc.plus(1) },
-		conscEff2() { return player.ai.consc.plus(1).log(3).plus(1) },
+		conscEff2() { return softcap('consc2',player.ai.consc.plus(1).log(3).plus(1)) },
 		tabFormat: ["main-display",
 			"prestige-button",
 			"resource-display", "blank",
@@ -10699,7 +10699,7 @@ addLayer("c", {
 		},
 		totalAssigned() { return player.c.assigned.reduce((a,c) => Decimal.add(a, c)) },
 		minAssigned() { return player.c.assigned.reduce((a,c) => Decimal.min(a, c)) },
-		eff1() { return tmp.c.power[1].times(50) },
+		eff1() { return softcap('civ_1',tmp.c.power[1].times(50)) },
 		eff2() { return softcap('civ2',Decimal.pow(1e20, tmp.c.power[2])) },
 		eff3() { return softcap('civ3',Decimal.pow(1e15, tmp.c.power[3])) },
 		eff4() { return Decimal.pow("1e1000", tmp.c.power[4]) },
@@ -10993,7 +10993,7 @@ addLayer("cs", {
 					let base2 = new Decimal(2.5)
 					let eff = player.cs.stardust.max(1).root(3).max(1).pow(base).mul(base2)
 					if (hasUpgrade('cs',12) && (!hasMilestone('cs',1))) eff = eff.mul(3)
-					return eff
+					return softcap('cs_11',eff)
 				},
 				effectDisplay() {
 					return "x"+format(this.effect())
