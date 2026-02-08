@@ -7188,7 +7188,7 @@ addLayer("ma", {
             mult = new Decimal(1)
 			if (hasAchievement("a", 131)) mult = mult.div(1.1);
 			if (hasAchievement("a", 95)) mult = mult.div(1.15);
-			if (hasAchievement("a", 134)) mult = mult.times(player.ma.points.gte(100)?Decimal.pow(.999865, player.ps.points.div(player.ma.points.div(100).add(1))):Decimal.pow(.999925, player.ps.points));
+			if (hasAchievement("a", 134)) mult = mult.times(player.ma.points.gte(100)?Decimal.pow(.999855, player.ps.points.div(player.ma.points.div(100).add(1))):Decimal.pow(.999925, player.ps.points));
 			if (hasAchievement("a", 163)) mult = mult.div(Decimal.pow(1.1, player.a.achievements.filter(x => x>160).length));
             return mult
         },
