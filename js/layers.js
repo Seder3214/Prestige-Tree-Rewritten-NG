@@ -11586,7 +11586,7 @@ addLayer("as", {
 			id: ['ne'],	
 		},
 		masteryGoal: {
-			p: new Decimal("e6.823e12"),
+			p: new Decimal("e1.5e16"),
 			b: new Decimal(50000),
 			g: new Decimal(27300),
 			t: new Decimal(12610),
