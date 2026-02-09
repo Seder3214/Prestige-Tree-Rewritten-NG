@@ -11584,6 +11584,11 @@ addLayer("as", {
 			en: ['o'],
 			r: ['en'],
 			id: ['ne'],	
+			ai: ['id','r','ge'],
+			ge: ['r','n'],
+			ma: ['ai','ge','mc','c'],
+			mc: ['hs','i','ge'],
+			c: ['i','id','mc'],
 		},
 		masteryGoal: {
 			p: new Decimal("e1.5e16"),
@@ -11609,8 +11614,13 @@ addLayer("as", {
 			en: new Decimal(1e100),
 			r: new Decimal(1e42),
 			id: new Decimal(15),
+			c: new Decimal(10),
+			ai: new Decimal(1e9),
+			ge: new Decimal(1e100),
+			mc: new Decimal(1e50),
+			ma: new Decimal(45)
 		},
-		rowLimit: 6,
+		rowLimit: 7,
 })
 addLayer("a", {
         startData() { return {
