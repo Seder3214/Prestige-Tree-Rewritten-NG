@@ -94,7 +94,7 @@ let help_data = {
 	intai: {
 		id: "intai",
 		title: "Internal Nodes",
-		text: "Once you unlock Internal Nodes, it should be easy to just push through by buying Gear Evolutions, The Core and Core Fragments to reach the next AI Networks. At around Internal Node AD, you should get Gear Evolutions by resetting the AI Layer after buying one AI Network. Repeat this until you get to 1e50 Artificial Consciousness and buy Internal Node AD. Then you would just need to get as much AI Networks as you can for next Internal Nodes.",
+		text: "Once you unlock Internal Nodes, it should be easy to just push through by buying Gear Evolutions, The Core and Core Fragments to reach the next AI Networks. At around Internal Node AD, you should get Gear Evolutions by resetting the AI Layer after buying one AI Network. Repeat this until you get to 1e50 Artificial Consciousness and buy Internal Node AD. Then you would just need to get as much AI Networks as you can for next Internal Nodes. Also, don't forget assigning Civilizations in right order as soon as you can afford them (5, 4, 3 first)",
 		unlocked() { return player.ai.upgrades.length>=25},
 	},
 	cs: {
