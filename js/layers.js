@@ -10065,7 +10065,7 @@ addLayer("ai", {
 						currencyDisplayName: "artificial consciousness",
 						currencyInternalName: "consc",
 						currencyLayer: "ai",
-						cost: new Decimal(4.75e40),
+						cost: new Decimal(1.15e40),
 					},
 				],
 				multiRes: [
