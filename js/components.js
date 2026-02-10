@@ -252,7 +252,7 @@ function loadVue() {
 			v-html="(player[layer].points.gte(tmp.ma.masteryGoal[layer]))?('Master this layer!'):('Reach '+format(tmp.ma.masteryGoal[layer])+' '+tmp[layer].resource+' to fully Master this layer.')"
 			v-on:click="layers.ma.completeMastery(layer)">
 		</button>
-		<button v-if="player.as.selectionActive&&tmp[layer].row<tmp.as.rowLimit&&tmp.as.canBeMastered.includes(layer)" v-bind:class="{ as: true, reset: true, locked: player[layer].points.lt(tmp.as.masteryGoal[layer]), can: player[layer].points.gte(tmp.as.masteryGoal[layer]), anim: (player.anim&&!player.oldStyle), grad: (player.grad&&!player.oldStyle) }"
+		<button v-if="player.as.selectionActive&&tmp[layer].row<tmp.as.rowLimit&&tmp.as.canBeMastered.includes(layer)&&player.as.current==layer" v-bind:class="{ as: true, reset: true, locked: player[layer].points.lt(tmp.as.masteryGoal[layer]), can: player[layer].points.gte(tmp.as.masteryGoal[layer]), anim: (player.anim&&!player.oldStyle), grad: (player.grad&&!player.oldStyle) }"
 			v-bind:style="(player[layer].points.gte(tmp.as.masteryGoal[layer]))?{'background-color': tmp.as.color}:{}"
 			v-html="(player[layer].points.gte(tmp.as.masteryGoal[layer]))?('Ascend this layer!'):('Reach '+format(tmp.as.masteryGoal[layer])+' '+tmp[layer].resource+' to fully Ascend this layer.')"
 			v-on:click="layers.as.completeMastery(layer)">

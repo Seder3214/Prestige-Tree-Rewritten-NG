@@ -10984,7 +10984,7 @@ addLayer("cs", {
 			11: {
 				title: "Planetary Power",
 				description: "Planetary remains boosts itself.",
-				cost() { return new Decimal(50) },
+				cost() { return new Decimal(15) },
 				currencyDisplayName: "planetary remains",
 				currencyInternalName: "stardust",
 				currencyLayer: "cs",
